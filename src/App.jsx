@@ -1,122 +1,116 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import temasAzure from './datos.json';
+import preguntasQuiz from './quiz.json';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [temaActivo, setTemaActivo] = useState(temasAzure[0]);
+  const [modo, setModo] = useState('wiki'); // Puede ser 'wiki' o 'quiz'
+
+  // Estados exclusivos para el Quiz
+  const [preguntaActual, setPreguntaActual] = useState(0);
+  const [puntaje, setPuntaje] = useState(0);
+  const [mostrarResultado, setMostrarResultado] = useState(false);
+
+  const manejarRespuesta = (opcionSeleccionada) => {
+    if (opcionSeleccionada === preguntasQuiz[preguntaActual].respuestaCorrecta) {
+      setPuntaje(puntaje + 1);
+    }
+    
+    const siguientePregunta = preguntaActual + 1;
+    if (siguientePregunta < preguntasQuiz.length) {
+      setPreguntaActual(siguientePregunta);
+    } else {
+      setMostrarResultado(true);
+    }
+  };
+
+  const reiniciarQuiz = () => {
+    setPreguntaActual(0);
+    setPuntaje(0);
+    setMostrarResultado(false);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="contenedor-principal">
+      <main className="panel-contenido">
+        <div className="pantalla-informacion">
+          
+          {modo === 'wiki' ? (
+            // VISTA WIKI TRADICIONAL
+            <>
+              <h1 className="titulo-tema">{temaActivo.titulo}</h1>
+              <div className="texto-explicativo">
+                {temaActivo.parrafos.map((parrafo, index) => (
+                  <p key={index}>{parrafo}</p>
+                ))}
+              </div>
+            </>
+          ) : (
+            // VISTA DEL QUIZ
+            <div className="contenedor-quiz">
+              <h1 className="titulo-tema">C:\&gt; EVALUACION_SISTEMA.exe</h1>
+              
+              {mostrarResultado ? (
+                <div className="resultado-quiz">
+                  <h2>Evaluación Finalizada</h2>
+                  <p>Archivos recuperados: {puntaje} de {preguntasQuiz.length}</p>
+                  <button className="boton-retro" onClick={reiniciarQuiz}>[ REINTENTAR ]</button>
+                </div>
+              ) : (
+                <div className="pregunta-quiz">
+                  <h2 style={{color: '#ff00ff', marginBottom: '15px'}}>Pregunta {preguntaActual + 1} / {preguntasQuiz.length}</h2>
+                  <p className="texto-pregunta">{preguntasQuiz[preguntaActual].pregunta}</p>
+                  
+                  <div className="opciones-quiz">
+                    {preguntasQuiz[preguntaActual].opciones.map((opcion, index) => (
+                      <button 
+                        key={index} 
+                        className="boton-opcion" 
+                        onClick={() => manejarRespuesta(opcion)}
+                      >
+                        {">"} {opcion}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+      </main>
+
+      <nav className="barra-lateral">
+        <h2 className="titulo-wiki">Azure Security</h2>
+        
+        {/* Botón especial para el Quiz */}
+        <button 
+          className={modo === 'quiz' ? 'boton-tema activo' : 'boton-tema'}
+          onClick={() => setModo('quiz')}
+          style={{ marginBottom: '20px', borderBottom: '1px dashed #444', paddingBottom: '15px' }}
         >
-          Count is {count}
+          [ TOMAR PRUEBA ]
         </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
+        <ul className="lista-temas">
+          {temasAzure.map((tema) => (
+            <li key={tema.id}>
+              <button 
+                className={modo === 'wiki' && temaActivo.id === tema.id ? 'boton-tema activo' : 'boton-tema'}
+                onClick={() => {
+                  setModo('wiki');
+                  setTemaActivo(tema);
+                }}
+              >
+                {tema.titulo}
+              </button>
             </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+          ))}
+        </ul>
+      </nav>
+    </div>
+  );
 }
 
-export default App
+export default App;

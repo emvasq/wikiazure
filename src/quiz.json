@@ -1,0 +1,27 @@
+[
+  {
+    "pregunta": "¿Qué servicio de Azure actúa como una caja fuerte digital para guardar claves y contraseñas de las aplicaciones?",
+    "opciones": ["Defender for Cloud", "Azure Key Vault", "Azure Policy", "Entra ID"],
+    "respuestaCorrecta": "Azure Key Vault"
+  },
+  {
+    "pregunta": "Si un atacante intenta enviar miles de visitas falsas para derribar tu web, ¿qué servicio lo detiene?",
+    "opciones": ["Protección Anti-DDoS", "Grupos de Seguridad de Red (NSG)", "Web Application Firewall (WAF)", "Cifrado de Datos"],
+    "respuestaCorrecta": "Protección Anti-DDoS"
+  },
+  {
+    "pregunta": "¿Cuál es la función principal de Microsoft Sentinel?",
+    "opciones": ["Crear servidores nuevos", "Actuar como el detective jefe que recolecta pistas de toda la empresa", "Guardar copias de seguridad", "Dividir la red en habitaciones aisladas"],
+    "respuestaCorrecta": "Actuar como el detective jefe que recolecta pistas de toda la empresa"
+  },
+  {
+    "pregunta": "El Control de Acceso Basado en Roles (RBAC) se asegura de aplicar una regla de oro en ciberseguridad. ¿Cuál es?",
+    "opciones": ["Principio de menor privilegio", "Acumulación de privilegios", "Inspección profunda de paquetes", "Cifrado en reposo"],
+    "respuestaCorrecta": "Principio de menor privilegio"
+  },
+  {
+    "pregunta": "¿Qué herramienta actúa como el libro de reglas automático que impide crear recursos sin cumplir normativas (ej. sin copias de seguridad)?",
+    "opciones": ["Entra ID", "Microsoft Sentinel", "Azure Policy", "MFA"],
+    "respuestaCorrecta": "Azure Policy"
+  }
+]
